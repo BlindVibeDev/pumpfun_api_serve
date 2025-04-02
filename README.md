@@ -2,24 +2,61 @@
 
 A FastAPI server that interacts with the Pump.fun API for trading tokens using the PumpPortal API.
 
+## Features
+
+- Secure API with HTTP Basic Authentication
+- Trading endpoints for buying and selling tokens
+- Token information endpoints with mock data
+- Interactive API documentation with Swagger UI
+- Cross-origin support for frontend integration
+
 ## Quick Start
 
-1. Double-click the `run.bat` file to start the server
-2. The server will be available at http://localhost:8000
-3. Access the API documentation at http://localhost:8000/docs
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/BlindVibeDev/pumpfun_api_server.git
+   cd pumpfun_api_server
+   ```
 
-## Environment Configuration
+2. Set up a Python virtual environment:
+   ```bash
+   python -m venv env
+   source env/bin/activate  # On Windows: env\Scripts\activate
+   ```
 
-The API is pre-configured with your PumpPortal credentials:
+3. Install dependencies:
+   ```bash
+   pip install fastapi uvicorn httpx python-dotenv
+   ```
 
-- API Key: Configured in .env file
-- Wallet Public Key: 5YYgQY4dD8wk3mpABJauT569T4wcE4MGbtdkJ4HSdr7g
-- Default API Username: admin
-- Default API Password: changeme
+4. Create a `.env` file with your credentials:
+   ```
+   PUMPPORTAL_API_KEY=your_api_key_here
+   WALLET_PUBLIC_KEY=your_wallet_public_key_here
+   API_USERNAME=admin
+   API_PASSWORD=changeme
+   ```
+
+5. Run the server:
+   ```bash
+   # For development
+   uvicorn app:app --reload
+   
+   # For production
+   uvicorn app:app --host 0.0.0.0
+   ```
+   
+   Or simply run the included `run_fixed.bat` file on Windows.
 
 ## API Endpoints
 
-### Trading
+The API documentation is available at `/docs` when the server is running.
+
+### Authentication
+
+All endpoints are protected with HTTP Basic Authentication. You need to provide the username and password set in your environment variables.
+
+### Trading Endpoints
 
 - `POST /trade`: Execute buy/sell trades on Pump.fun
 
@@ -36,23 +73,31 @@ Example request:
 }
 ```
 
-### Token Information
+### Token Information Endpoints
 
 - `GET /tokens/featured`: Get a list of featured tokens
 - `GET /token/{mint}`: Get information about a specific token
 
-## Security
+## Testing
 
-All endpoints are protected with HTTP Basic Authentication using the credentials:
-- Username: admin
-- Password: changeme 
+You can run the included test script to verify the API is working:
 
-You can change these in the .env file if needed.
+```bash
+python test_api.py
+```
 
-## Accessing from Other Devices
+## Production Deployment
 
-The server runs on all interfaces (0.0.0.0) so you can access it from other devices on your local network using your computer's IP address:
+For production environments, it's recommended to:
 
-http://your-ip-address:8000/docs
+1. Change default authentication credentials
+2. Set up HTTPS using a reverse proxy
+3. Restrict CORS origins to only trusted domains
 
-If you need to access it over the internet, consider using a service like ngrok.
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
